@@ -1,26 +1,106 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* On garde tout le reste identique... */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter); /* Changé pour ta charte */
+  --font-heading: var(--font-roboto); /* Ajouté pour ta charte */
+  
+  /* Tes couleurs nommées pour usage direct : ex text-askia-blue */
+  --color-askia-blue: #0B3C5D;
+  --color-askia-teal: #14BBA6;
+  --color-askia-gray: #E9EEF3;
+
+  /* On lie les variables shadcn à tes couleurs */
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  
+  /* Le reste de ta config @theme inchangé... */
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 0.75rem;
+  
+  /* TES COULEURS ICI */
+  --background: #ffffff;
+  --foreground: #0B3C5D; /* Ton bleu foncé pour le texte par défaut */
+  
+  --primary: #0B3C5D;    /* Boutons principaux en Bleu */
+  --primary-foreground: #ffffff;
+  
+  --accent: #14BBA6;     /* Éléments d'accentuation en Vert Teal */
+  --accent-foreground: #ffffff;
+  
+  --muted: #E9EEF3;      /* Ton gris de charte pour les fonds secondaires */
+  --muted-foreground: #64748b;
+  
+  --border: #E9EEF3;
+  --input: #E9EEF3;
+  --ring: #14BBA6;
+
+  /* Garde les charts si tu en as besoin, sinon laisse par défaut */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+}
+
+.dark {
+  /* Ajustement automatique pour le mode nuit */
+  --background: #0B3C5D;
+  --foreground: #ffffff;
+  --primary: #14BBA6;
+  --primary-foreground: #0B3C5D;
+  --accent: #14BBA6;
+  --accent-foreground: #ffffff;
+  --border: rgba(255,255,255,0.1);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+  }
 }
