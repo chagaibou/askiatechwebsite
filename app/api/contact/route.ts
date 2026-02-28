@@ -1,31 +1,41 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// CETTE LIGNE EST LA CLÉ : Elle empêche l'erreur "Failed to collect page data"
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
+  // On vérifie la clé seulement au moment de l'exécution
+  const apiKey = process.env.RESEND_API_KEY;
+  
+  if (!apiKey) {
+    return NextResponse.json({ error: "Clé API manquante" }, { status: 500 });
+  }
+
+  const resend = new Resend(apiKey);
+
   try {
     const { name, email, service, message } = await req.json();
 
     const data = await resend.emails.send({
-      from: 'ASKIA-Tech Contact <onboarding@resend.dev>', // Au début, Resend n'autorise que cette adresse
-      to: ['askiatech3301@gmail.com'], // REMPLACEZ PAR VOTRE ADRESSE MAIL
+      from: 'ASKIA-Tech Contact <onboarding@resend.dev>',
+      to: ['askiatech3301@gmail.com'],
       subject: `Nouveau Besoin Client : ${service}`,
       html: `
         <div style="font-family: sans-serif; color: #003366; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
           <h2 style="color: #008080;">Nouvelle demande de projet - ASKIA-Tech</h2>
-          <p><strong>Nom du prospect :</strong> ${name}</p>
+          <p><strong>Nom :</strong> ${name}</p>
           <p><strong>Email :</strong> ${email}</p>
-          <p><strong>Service concerné :</strong> ${service}</p>
-          <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;" />
-          <p><strong>Message / Besoins :</strong></p>
-          <p style="background: #f9f9f9; padding: 15px; border-radius: 5px;">${message}</p>
+          <p><strong>Service :</strong> ${service}</p>
+          <hr />
+          <p><strong>Message :</strong></p>
+          <p>${message}</p>
         </div>
       `,
     });
 
     return NextResponse.json({ success: true, data });
   } catch (error) {
-    return NextResponse.json({ error: "Échec de l'envoi" }, { status: 500 });
+    return NextResponse.json({ error: "Erreur d'envoi" }, { status: 500 });
   }
 }
