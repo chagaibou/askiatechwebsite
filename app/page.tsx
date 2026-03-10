@@ -35,7 +35,7 @@ export default function Home() {
 
             <div className="flex items-center gap-6 pt-2">
               <button className="bg-askia-blue text-white px-7 py-2.5 rounded-full font-bold hover:shadow-lg transition-all text-xs">
-                Nos Services
+                 <a href="/services">Nos Services</a>
               </button>
               <button className="text-askia-blue font-bold text-xs hover:text-askia-teal transition-colors flex items-center gap-2">
                 En savoir plus <span className="text-lg">→</span>
